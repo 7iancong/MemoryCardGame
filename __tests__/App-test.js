@@ -1,14 +1,23 @@
-/**
- * @format
- */
+import { checkCompletion, generateArrayOfUniqueNumbers, shuffleCards } from "../src/components/Screen-Home"
+import { Alert } from "react-native"
 
-import 'react-native';
-import React from 'react';
-import App from '../App';
+describe("Game initialisation", () => {
+  test("the array size generated is correct", () => {
+    expect(generateArrayOfUniqueNumbers(6).length).toEqual(6)
+  })
+  test("the array is properly shuffled", () => {
+    let arrayA = [1, 2, 3, 4]
+    let arrayB = [...arrayA]
+    shuffleCards(arrayB)
+    expect(JSON.stringify(arrayA)).not.toBe(JSON.stringify(arrayB))
+  })
+})
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
-
-it('renders correctly', () => {
-  renderer.create(<App />);
-});
+describe("Game completion", () => {
+  test("test for successful game completion", () => {
+    expect(checkCompletion({"1": true, "2": true}, [1, 2, 1, 2])).toBeTruthy()
+  })
+  test("test for unsuccessful game completion", () => {
+    expect(checkCompletion({"1": true}, [1, 2, 1, 2])).not.toBeTruthy()
+  })
+})

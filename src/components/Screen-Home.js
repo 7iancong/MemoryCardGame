@@ -5,6 +5,50 @@ import { AppContext } from "../contexts/AppContext"
 import { AppView, HeaderView, ContainerCardView, RestartButton, StepsText, StepsTextHighlight } from "../css/Style"
 import Card from "./Component-Card"
 
+export const generateArrayOfUniqueNumbers = (n) => {
+    let array = []
+    for (let i = 0; i < n; i++) {
+        // Returns a random integer from 0 to 100
+        let num = Math.floor(Math.random() * 101)
+        while (array.includes(num)) {
+            num = Math.floor(Math.random() * 101)
+        }
+        array.push(num)
+    }
+    return array
+}
+
+export const shuffleCards = (array) => {
+    const length = array.length;
+    for (let i = length; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * i);
+        const currentIndex = i - 1
+        const temp = array[currentIndex]
+        array[currentIndex] = array[randomIndex]
+        array[randomIndex] = temp
+    }
+    return array;
+}
+
+export const checkCompletion = (clearedCards, cards, steps, handleRestartClick) => {
+    if (Object.keys(clearedCards).length === cards.length/2) {
+        // console.log("Game Completed! " + steps + " steps taken.");
+        Alert.alert(
+            "Congratulations!",
+            "You completed the game in " + steps + " steps!",
+            [
+                {
+                    text: "Try another round",
+                    onPress: () => handleRestartClick()
+                }
+            ]
+        )
+        return true
+    }
+    else
+        return false
+}
+
 const Home = () => {
     const { state } = useContext(AppContext)
     const theme = state.theme
@@ -12,32 +56,7 @@ const Home = () => {
     const [openCards, setOpenCards] = useState([])
     const [clearedCards, setClearCards] = useState({})
     const [isClickDisabled, setIsClickDisabled] = useState(false)
-    const [steps, setSteps] = useState(0)
-
-    const generateArrayOfUniqueNumbers = (n) => {
-        let array = []
-        for (let i = 0; i < n; i++) {
-            // Returns a random integer from 0 to 100
-            let num = Math.floor(Math.random() * 101)
-            while (array.includes(num)) {
-                num = Math.floor(Math.random() * 101)
-            }
-            array.push(num)
-        }
-        return array
-    }
-
-    const shuffleCards = (array) => {
-        const length = array.length;
-        for (let i = length; i > 0; i--) {
-            const randomIndex = Math.floor(Math.random() * i);
-            const currentIndex = i - 1
-            const temp = array[currentIndex]
-            array[currentIndex] = array[randomIndex]
-            array[randomIndex] = temp
-        }
-        return array;
-    }
+    const [steps, setSteps] = useState(0)   
 
     const disableClick = () => {
         setIsClickDisabled(true)
@@ -55,22 +74,6 @@ const Home = () => {
         return Boolean(clearedCards[value])
     }
 
-    const checkCompletion = () => {
-        if (Object.keys(clearedCards).length === cards.length/2) {
-            // console.log("Game Completed! " + steps + " steps taken.");
-            Alert.alert(
-                "Congratulations!",
-                "You completed the game in " + steps + " steps!",
-                [
-                    {
-                        text: "Try another round",
-                        onPress: () => handleRestartClick()
-                    }
-                ]
-            )
-        }
-    }
-
     const evaluate = () => {
         const [index1, index2] = openCards
         // console.log("1", index1);
@@ -86,7 +89,7 @@ const Home = () => {
     }
 
     const handleCardClick = (index) => {
-        console.log("clicked", index);
+        // console.log("clicked", index);
         if (openCards.length === 1) {
             setOpenCards([...openCards, index])
             disableClick()
@@ -132,6 +135,7 @@ const Home = () => {
         const arrayUnique = generateArrayOfUniqueNumbers(6)
         console.log("unique array", arrayUnique);
         setCards(shuffleCards(arrayUnique.concat(arrayUnique)))
+        return () => {}
     }, [])    
 
     useEffect(() => {
@@ -147,7 +151,7 @@ const Home = () => {
     useEffect(() => {
         console.log("clearedCards", clearedCards);
         if (cards.length !== 0) {
-            checkCompletion()
+            checkCompletion(clearedCards, cards, steps, () => handleRestartClick())
         }
     }, [clearedCards])
 
