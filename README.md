@@ -10,6 +10,8 @@ https://user-images.githubusercontent.com/44191919/193462322-b150db53-9d09-44f6-
   
   🎁 Included option to randomly generate CARD_PAIRS_VALUE for each new game (RANDOM_GENERATE: true / false)
   
+  https://user-images.githubusercontent.com/44191919/193464664-e1dbcf0b-19e8-4f7c-b6ef-14737275231e.mp4
+  
   🎁 Included option to change theme of the app (THEME: lightTheme / darkTheme)
   
   <div>
