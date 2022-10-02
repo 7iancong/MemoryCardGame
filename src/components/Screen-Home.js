@@ -146,7 +146,9 @@ const Home = () => {
 
     useEffect(() => {
         console.log("clearedCards", clearedCards);
-        checkCompletion()
+        if (cards.length !== 0) {
+            checkCompletion()
+        }
     }, [clearedCards])
 
     return (
