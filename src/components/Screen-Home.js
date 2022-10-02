@@ -5,6 +5,9 @@ import { AppContext } from "../contexts/AppContext"
 import { AppView, HeaderView, ContainerCardView, RestartButton, StepsText, StepsTextHighlight } from "../css/Style"
 import Card from "./Component-Card"
 
+import { SETTINGS } from "../utils/Settings"
+import { getLanguage } from "../languages"
+
 export const generateArrayOfUniqueNumbers = (n) => {
     let array = []
     for (let i = 0; i < n; i++) {
@@ -30,15 +33,15 @@ export const shuffleCards = (array) => {
     return array;
 }
 
-export const checkCompletion = (clearedCards, cards, steps, handleRestartClick) => {
+export const checkCompletion = (clearedCards, cards, steps, handleRestartClick, language) => {
     if (Object.keys(clearedCards).length === cards.length/2) {
         // console.log("Game Completed! " + steps + " steps taken.");
         Alert.alert(
-            "Congratulations!",
-            "You completed the game in " + steps + " steps!",
+            language.alertTitle,
+            language.alertMessage1 + steps + language.alertMessage2,
             [
                 {
-                    text: "Try another round",
+                    text: language.alertButton,
                     onPress: () => handleRestartClick()
                 }
             ]
@@ -50,6 +53,7 @@ export const checkCompletion = (clearedCards, cards, steps, handleRestartClick) 
 }
 
 const Home = () => {
+    const language = getLanguage()
     const { state } = useContext(AppContext)
     const theme = state.theme
     const [cards, setCards] = useState([])
@@ -132,7 +136,7 @@ const Home = () => {
 
     useEffect(() => {
         console.log("App launch");
-        const arrayUnique = generateArrayOfUniqueNumbers(6)
+        const arrayUnique = SETTINGS.RANDOM_GENERATE === true ? generateArrayOfUniqueNumbers(6) : SETTINGS.CARD_PAIRS_VALUE
         console.log("unique array", arrayUnique);
         setCards(shuffleCards(arrayUnique.concat(arrayUnique)))
         return () => {}
@@ -151,15 +155,15 @@ const Home = () => {
     useEffect(() => {
         console.log("clearedCards", clearedCards);
         if (cards.length !== 0) {
-            checkCompletion(clearedCards, cards, steps, () => handleRestartClick())
+            checkCompletion(clearedCards, cards, steps, () => handleRestartClick(), language)
         }
     }, [clearedCards])
 
     return (
         <AppView theme={theme}>
             <HeaderView>
-                <RestartButton theme={theme} title="Restart" onPress={() => handleRestartClick()} />
-                <StepsText>STEPS: <StepsTextHighlight theme={theme}>{steps}</StepsTextHighlight></StepsText>
+                <RestartButton theme={theme} title={language.restart} onPress={() => handleRestartClick()} />
+                <StepsText theme={theme}>{language.steps}: <StepsTextHighlight theme={theme}>{steps}</StepsTextHighlight></StepsText>
             </HeaderView>
             <ContainerCardView>
                 {renderCards(cards)}

@@ -1,5 +1,5 @@
 export const StyleConfig = {
-    defaultTheme: {
+    lightTheme: {
         bg: "#ffffff",
         text_pri: "#222222",
         text_sec: "#455a64",
@@ -9,6 +9,17 @@ export const StyleConfig = {
         border: "#b0bec5",
         text_inimicode_logo: "#444444",
         bg_flat_hover: "#d3e0eb",
+    },
+    darkTheme: {
+        bg: "#222222",
+        text_pri: "#ffffff",
+        text_sec: "#b0bec5",
+        text_err: "#ffffff",
+        text_link_interactive: "#ffffff",
+        text_disabled: "#cfd8dc",
+        border: "#455a64",
+        text_inimicode_logo: "#ffffff",
+        bg_flat_hover: "#284d6d",
     },
     spacing: {
         s: "5px",

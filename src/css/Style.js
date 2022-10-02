@@ -23,7 +23,7 @@ export const HeaderView = styled.View`
 `
 
 export const RestartButton = styled.Button`
-color: ${props => {
+    color: ${props => {
         const value = StyleConfig[props.theme].text_link_interactive
         return value
     }};
@@ -31,6 +31,10 @@ color: ${props => {
 
 export const StepsText = styled.Text`
     font-size: ${StyleConfig.fontSize.xl};
+    color: ${props => {
+        const value = StyleConfig[props.theme].text_pri
+        return value
+    }};
 `
 
 export const StepsTextHighlight = styled(StepsText)`
