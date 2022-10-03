@@ -33,7 +33,7 @@ export const shuffleCards = (array) => {
     return array;
 }
 
-export const checkCompletion = (clearedCards, cards, steps, handleRestartClick, language) => {
+export const checkCompletion = (clearedCards, cards, steps, handleRestartClick, language={alertTitle: "", alertMessage1: "", alertMessage2: ""}) => {
     if (Object.keys(clearedCards).length === cards.length/2) {
         // console.log("Game Completed! " + steps + " steps taken.");
         Alert.alert(

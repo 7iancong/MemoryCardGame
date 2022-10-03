@@ -1,5 +1,5 @@
 import { checkCompletion, generateArrayOfUniqueNumbers, shuffleCards } from "../src/components/Screen-Home"
-import { Alert } from "react-native"
+import { getLanguage } from "../src/languages"
 
 describe("Game initialisation", () => {
   test("the array size generated is correct", () => {
@@ -15,9 +15,9 @@ describe("Game initialisation", () => {
 
 describe("Game completion", () => {
   test("test for successful game completion", () => {
-    expect(checkCompletion({"1": true, "2": true}, [1, 2, 1, 2])).toBeTruthy()
+    expect(checkCompletion({"1": true, "2": true}, [1, 2, 1, 2], 0, () => {}, getLanguage())).toBeTruthy()
   })
   test("test for unsuccessful game completion", () => {
-    expect(checkCompletion({"1": true}, [1, 2, 1, 2])).not.toBeTruthy()
+    expect(checkCompletion({"1": true}, [1, 2, 1, 2], 0 , () => {}, getLanguage())).not.toBeTruthy()
   })
 })
